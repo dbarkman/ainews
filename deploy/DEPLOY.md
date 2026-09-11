@@ -10,14 +10,20 @@ deploy key is read-only; never edit files on the host directly.
 
 ```bash
 # 1. Deploy key (read-only, scoped to this repo)
-sudo ssh-keygen -t ed25519 -N "" -f /etc/ssh/ainews-deploy -C "ainews-deploy@web2"
-sudo cat /etc/ssh/ainews-deploy.pub     # add as a read-only deploy key on GitHub
+# Fleet layout: a DIRECTORY owned by apache. The key has to be readable by
+# apache, because pulls run as apache — a root-owned key file fails at pull time
+# even though the initial root clone succeeds.
+sudo install -d -o apache -g apache -m 700 /etc/ssh/ainews-deploy
+sudo -u apache ssh-keygen -t ed25519 -N "" \
+     -f /etc/ssh/ainews-deploy/id_ed25519 -C "ainews-deploy@web2"
+sudo cat /etc/ssh/ainews-deploy/id_ed25519.pub   # add as a read-only deploy key on GitHub
 
 # 2. Clone
+ssh-keyscan -t ed25519 github.com | sudo tee -a /etc/ssh/ssh_known_hosts >/dev/null
 sudo git clone git@github.com:dbarkman/ainews.git /var/www/html/ainews
-sudo git -C /var/www/html/ainews config core.sshCommand \
-    "ssh -i /etc/ssh/ainews-deploy -o IdentitiesOnly=yes"
 sudo chown -R apache:apache /var/www/html/ainews
+sudo -u apache git -C /var/www/html/ainews config core.sshCommand \
+    "ssh -i /etc/ssh/ainews-deploy/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=/etc/ssh/ssh_known_hosts"
 
 # 3. Database
 sudo mysql -e "CREATE DATABASE ainews CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
