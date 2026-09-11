@@ -1,0 +1,27 @@
+[project]
+name = "ainews"
+version = "0.1.0"
+description = "AI News HQ — topic-matched AI news aggregator with a volume cap"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi==0.141.1",
+    "uvicorn[standard]==0.52.4",
+    "httpx==0.28.1",
+    "feedparser==6.0.14",
+    "PyMySQL==1.2.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ainews"]

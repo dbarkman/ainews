@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI News HQ</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header>
+  <h1>AI News HQ</h1>
+  <p class="tagline">A capped daily digest, matched to what you actually want to learn.</p>
+  <nav id="nav" hidden>
+    <button data-view="feed">Digest</button>
+    <button data-view="sources">Sources</button>
+    <button data-view="settings">Settings</button>
+  </nav>
+</header>
+
+<main>
+  <!-- survey -->
+  <section id="survey" hidden>
+    <h2>Four questions</h2>
+    <p class="hint">Under a minute. Stored in your browser only — no account, nothing sent anywhere but the query for your digest.</p>
+    <form id="survey-form">
+      <fieldset>
+        <legend>1. What industry do you work in?</legend>
+        <div class="options" data-q="industry" data-single="1"></div>
+      </fieldset>
+      <fieldset>
+        <legend>2. What do you use AI for today?</legend>
+        <div class="options" data-q="today"></div>
+      </fieldset>
+      <fieldset>
+        <legend>3. What do you want to use it for next?</legend>
+        <div class="options" data-q="next"></div>
+      </fieldset>
+      <fieldset>
+        <legend>4. What do you want to read about?</legend>
+        <div class="options" data-q="learn"></div>
+      </fieldset>
+      <fieldset>
+        <legend>How many stories per day?</legend>
+        <div class="options" data-q="limit" data-single="1"></div>
+      </fieldset>
+      <button type="submit" class="primary">Build my digest</button>
+    </form>
+  </section>
+
+  <!-- feed -->
+  <section id="feed" hidden>
+    <div class="section-head">
+      <h2>Today's digest</h2>
+      <span id="feed-meta" class="hint"></span>
+    </div>
+    <ol id="feed-list" class="cards"></ol>
+    <p id="feed-empty" class="hint" hidden>Nothing matched yet. The ingester may not have run, or your topics are very narrow.</p>
+    <p class="footnote">Headlines link straight to the publisher. Nothing is reproduced here.</p>
+  </section>
+
+  <!-- sources -->
+  <section id="sources" hidden>
+    <div class="section-head">
+      <h2>Sources for your topics</h2>
+      <span class="hint">Dedicated sources cover one beat. General sources get filtered per article.</span>
+    </div>
+    <div id="sources-list"></div>
+  </section>
+
+  <!-- settings -->
+  <section id="settings" hidden>
+    <h2>Settings</h2>
+    <h3>Topics</h3>
+    <div id="settings-topics" class="options"></div>
+    <h3>Stories per day</h3>
+    <div id="settings-limit" class="options"></div>
+    <p>
+      <button id="save-settings" class="primary">Save</button>
+      <button id="retake">Retake the survey</button>
+    </p>
+  </section>
+</main>
+
+<footer>
+  <span id="status" class="hint"></span>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

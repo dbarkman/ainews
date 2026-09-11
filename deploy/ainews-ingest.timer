@@ -1,0 +1,13 @@
+[Unit]
+Description=Poll AI News HQ feeds every 30 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=30min
+AccuracySec=1min
+RandomizedDelaySec=2min
+Unit=ainews-ingest.service
+Persistent=true
+
+[Install]
+WantedBy=timers.target

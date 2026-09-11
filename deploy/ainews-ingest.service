@@ -1,0 +1,14 @@
+[Unit]
+Description=AI News HQ RSS ingest worker (one pass over all active feeds)
+After=network-online.target mariadb.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=apache
+Group=apache
+WorkingDirectory=/var/www/html/ainews
+EnvironmentFile=/var/www/html/ainews/.env
+ExecStart=/var/www/html/ainews/.venv/bin/python -m ainews.ingest
+StandardOutput=journal
+StandardError=journal
